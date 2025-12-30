@@ -66,7 +66,7 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
-    align-items: start;
+    align-items: start; /* Allows grid Items to be veritically alinged, in this case, starting at the top  */
 }
 
 .content-section {
@@ -510,7 +510,7 @@ body {
     font-weight: 600;
     margin: 0 0 1.5rem 0;
     color: white;
-    text-align: center;
+    /* text-align: center; */
 }
 
 .create-playlist {

@@ -13,12 +13,12 @@ function App() {
   return (
     <BrowserRouter>
       <MusicProvider>
-        <div className='App'>
+        <div className='app'>
           <NavBar />
           <main className='app-main'>
-            <div className="player-section">
-              <MusicPlayer />
-            </div>
+            {/* <div className="player-section"> */}
+            <MusicPlayer />
+            {/* </div> */}
 
             <div className="content-section">
               <Routes>

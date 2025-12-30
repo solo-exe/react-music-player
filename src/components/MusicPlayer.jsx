@@ -35,16 +35,29 @@ const MusicPlayer = () => {
         setCurrentTime(newTime);
     }
 
+    // Effect for handling PLAY and PAUSE state changes from user interaction
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio) return;
 
         if (isPlaying) {
-            audio.play().catch((err) => console.error(err));
+            audio.play().catch((err) => console.error("Error playing audio:", err));
         } else {
             audio.pause();
         }
-    }, [isPlaying])
+    }, [isPlaying]);
+
+    // Effect for handling CHANGES to the CURRENT TRACK
+    useEffect(() => {
+        const audio = audioRef.current;
+        if (!audio) return;
+
+        audio.load(); // Load the new track's URL
+
+        if (isPlaying) {
+            audio.play().catch(err => console.error("Error auto-playing next track:", err));
+        }
+    }, [currentTrack, isPlaying]);
 
     useEffect(() => {
         const audio = audioRef.current;
@@ -57,18 +70,17 @@ const MusicPlayer = () => {
         const audio = audioRef.current;
         if (!audio) return;
 
-        // To run logic when metadata for the audio is loaded
+        // Runs when metadata for the audio is loaded
         const handleLoadedMetadata = () => {
             // set the duration to the actual audio duration, not the value in the song object
             setDuration(audio.duration);
         };
 
-        // To run logic continously as the time of playing song changes/ progresses
+        // Runs continuously as the time of the playing song changes/progresses
         const handleTimeUpdate = () => {
             setCurrentTime(audio.currentTime);
         };
 
-        // To run logic when 
         const handleEnded = () => {
             nextTrack();
         };
@@ -88,16 +100,7 @@ const MusicPlayer = () => {
             audio.removeEventListener('timeupdate', handleTimeUpdate);
             audio.removeEventListener('ended', handleEnded);
         };
-    }, [setDuration, setCurrentTime, nextTrack, currentTrack]);
-
-    useEffect(() => {
-        const audio = audioRef.current;
-        if (!audio) return;
-
-        audio.load()
-        setCurrentTime(0)
-        setDuration(0)
-    }, [currentTrack, setCurrentTime, setDuration])
+    }, [setDuration, setCurrentTime, nextTrack]);
 
     const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0;
 
