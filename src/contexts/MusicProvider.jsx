@@ -20,8 +20,6 @@ export const MusicProvider = ({ children }) => {
     const handlePlaySong = useCallback((song, index, doubleClick = false) => {
         setCurrentTrack(song);
         setCurrentTrackIndex(index);
-
-        // TEMPORARY ATTEMPT
         setIsPlaying(doubleClick)
     }, []);
 
@@ -31,8 +29,8 @@ export const MusicProvider = ({ children }) => {
             setCurrentTrack(allSongs[nextIndex])
             return nextIndex;
         }));
-        setIsPlaying(true);
-    }, [allSongs, setIsPlaying]);
+        isPlaying ? play() : pause();
+    }, [allSongs, isPlaying]);
 
     const prevTrack = useCallback(() => {
         setCurrentTrackIndex((prev => {
@@ -40,8 +38,8 @@ export const MusicProvider = ({ children }) => {
             setCurrentTrack(allSongs[nextIndex])
             return nextIndex;
         }));
-        setIsPlaying(true);
-    }, [allSongs, setIsPlaying]);
+        isPlaying ? play() : pause();
+    }, [allSongs, isPlaying]);
 
     const createPlaylist = useCallback((name) => {
         const newPlaylist = {

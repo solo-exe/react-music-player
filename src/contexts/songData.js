@@ -1,10 +1,10 @@
 export const songs = [
     {
         id: 1,
-        title: "Keep You Away",
+        title: "In Love",
         artist: "EchoBR",
-        url: "/songs/Keep You Away.wav",
-        duration: "4:32",
+        url: "/songs/In Love.wav",
+        duration: "3:15",
     },
     {
         id: 2,
@@ -36,10 +36,10 @@ export const songs = [
     },
     {
         id: 6,
-        title: "In Love",
+        title: "Keep You Away",
         artist: "EchoBR",
-        url: "/songs/In Love.wav",
-        duration: "3:15",
+        url: "/songs/Keep You Away.wav",
+        duration: "4:32",
     },
     {
         id: 7,

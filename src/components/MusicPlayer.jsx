@@ -18,9 +18,9 @@ const MusicPlayer = () => {
         pause,
         play,
         setVolume
-    } = useMusic()
-    const audioRef = useRef(null);
+    } = useMusic();
 
+    const audioRef = useRef(null);
     const handleVolumeChange = (event) => {
         const newVolume = event.target.value;
         setVolume(newVolume);
@@ -35,6 +35,13 @@ const MusicPlayer = () => {
         setCurrentTime(newTime);
     }
 
+    // Effect for handling CHANGES to the CURRENT TRACK
+    useEffect(() => {
+        const audio = audioRef.current;
+        if (!audio) return;
+        audio.load();
+    }, [currentTrack]);
+
     // Effect for handling PLAY and PAUSE state changes from user interaction
     useEffect(() => {
         const audio = audioRef.current;
@@ -45,15 +52,7 @@ const MusicPlayer = () => {
         } else {
             audio.pause();
         }
-    }, [isPlaying]);
-
-    // Effect for handling CHANGES to the CURRENT TRACK
-    useEffect(() => {
-        const audio = audioRef.current;
-        if (!audio) return;
-        audio.load(); // Load the new track's URL
-        audio.play().catch(err => console.error("Error auto-playing next track:", err));
-    }, [currentTrack]);
+    }, [isPlaying, currentTrack]);
 
     useEffect(() => {
         const audio = audioRef.current;
@@ -81,11 +80,9 @@ const MusicPlayer = () => {
             nextTrack();
         };
 
-        console.log('RUNSZ')
-        // use anevent listener
         // subscribing to an event listener is usually done within a useEffect in react
         audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-        // audio.addEventListener('canplay', handleLoadedMetadata);
+        audio.addEventListener('canplay', handleLoadedMetadata);
         audio.addEventListener('timeupdate', handleTimeUpdate)
         audio.addEventListener('ended', handleEnded)
 
@@ -152,7 +149,7 @@ const MusicPlayer = () => {
                     max="1"
                     step="0.01"
                     onChange={handleVolumeChange}
-                    value={volume}
+                    value={volume || 0}
                     style={{ "--volume": `${volumePercentage}%` }}
                 />
             </div>
