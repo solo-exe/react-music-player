@@ -11,17 +11,15 @@ export const MusicProvider = ({ children }) => {
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [volume, setVolume] = useState(0.03);
+    const [volume, setVolume] = useState(0.08);
     const [playlists, setPlaylists] = useState([]);
 
-    const play = useCallback(() => setIsPlaying(true), []);
-    const pause = useCallback(() => setIsPlaying(false), []);
+    const play = () => setIsPlaying(true)
+    const pause = () => setIsPlaying(false);
 
     const handlePlaySong = useCallback((song, index, doubleClick = false) => {
         setCurrentTrack(song);
         setCurrentTrackIndex(index);
-
-        console.log(doubleClick, '<<< doubleClick');
 
         // TEMPORARY ATTEMPT
         setIsPlaying(doubleClick)

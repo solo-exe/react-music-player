@@ -51,13 +51,9 @@ const MusicPlayer = () => {
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio) return;
-
         audio.load(); // Load the new track's URL
-
-        if (isPlaying) {
-            audio.play().catch(err => console.error("Error auto-playing next track:", err));
-        }
-    }, [currentTrack, isPlaying]);
+        audio.play().catch(err => console.error("Error auto-playing next track:", err));
+    }, [currentTrack]);
 
     useEffect(() => {
         const audio = audioRef.current;
@@ -85,10 +81,11 @@ const MusicPlayer = () => {
             nextTrack();
         };
 
+        console.log('RUNSZ')
         // use anevent listener
         // subscribing to an event listener is usually done within a useEffect in react
         audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-        audio.addEventListener('canplay', handleLoadedMetadata);
+        // audio.addEventListener('canplay', handleLoadedMetadata);
         audio.addEventListener('timeupdate', handleTimeUpdate)
         audio.addEventListener('ended', handleEnded)
 
@@ -103,6 +100,8 @@ const MusicPlayer = () => {
     }, [setDuration, setCurrentTime, nextTrack]);
 
     const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0;
+
+    const volumePercentage = volume * 100;
 
     return (
         <div className='music-player'>
@@ -154,6 +153,7 @@ const MusicPlayer = () => {
                     step="0.01"
                     onChange={handleVolumeChange}
                     value={volume}
+                    style={{ "--volume": `${volumePercentage}%` }}
                 />
             </div>
         </div >
