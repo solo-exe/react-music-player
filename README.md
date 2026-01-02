@@ -17,7 +17,7 @@ A clean, modern, and functional music player application built with React. This 
 
 ## Tech Stack & Key Concepts
 
-This project is built with a modern frontend stack and utilizes several important React patterns and browser APIs.
+This application is architected using a modern frontend stack, emphasizing best practices in React development, including advanced hooks and patterns, alongside powerful browser APIs. The entire development and production lifecycle is containerized with Docker, ensuring consistent, reproducible environments and simplifying deployment.
 
 ### Core Technologies
 

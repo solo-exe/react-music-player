@@ -1,0 +1,12 @@
+# Dependencies
+node_modules
+
+# Build artifacts
+dist
+
+# Git
+.git
+
+# Editor-specific / OS-specific
+.vscode
+.idea
