@@ -70,8 +70,8 @@ const Playlists = () => {
                 {
                     playlists.length === 0
                         ? (<p className='empty-message'>No playlists created yet</p>)
-                        : (playlists.map((playlist) => (
-                            <div className='playlist-item' key={playlist.id}>
+                        : (playlists.map((playlist, key) => (
+                            <div className='playlist-item' key={key}>
 
                                 <div className="playlist-header">
                                     <h3 className='playlist-title'>{playlist.name}</h3>
@@ -123,28 +123,27 @@ const Playlists = () => {
                                                 }
                                             </div>
                                         )}
-
-                                        <div className='playlist-songs'>
-                                            {
-                                                playlist.songs.length === 0
-                                                    ? <p>No songs in this playlists</p>
-                                                    : playlist.songs.map((song, key) => (
-                                                        <div
-                                                            key={key}
-                                                            className={`playlist-song ${currentTrackIndex === allSongs.findIndex((s) => s.id === song.id) ? "active" : ""}`}
-                                                            onClick={() => handlePlayFromPlaylist(song)}
-                                                            onDoubleClick={() => handlePlayFromPlaylist(song, true)}
-                                                        >
-                                                            <div className="song-info">
-                                                                <span className="song-title">{song.title}</span>
-                                                                <span className="song-artist">{song.artist}</span>
-                                                            </div>
-                                                            <div className="song-duration">{song.duration}</div>
-                                                        </div>
-                                                    ))
-                                            }
-                                        </div>
                                     </div>
+                                </div>
+                                <div className='playlist-songs'>
+                                    {
+                                        playlist.songs.length === 0
+                                            ? <p>No songs in this playlists</p>
+                                            : playlist.songs.map((song, key) => (
+                                                <div
+                                                    key={key}
+                                                    className={`playlist-song ${currentTrackIndex === allSongs.findIndex((s) => s.id === song.id) ? "active" : ""}`}
+                                                    onClick={() => handlePlayFromPlaylist(song)}
+                                                    onDoubleClick={() => handlePlayFromPlaylist(song, true)}
+                                                >
+                                                    <div className="song-info">
+                                                        <span className="song-title">{song.title}</span>
+                                                        <span className="song-artist">{song.artist}</span>
+                                                    </div>
+                                                    <div className="song-duration">{song.duration}</div>
+                                                </div>
+                                            ))
+                                    }
                                 </div>
                             </div>
                         )))
