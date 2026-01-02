@@ -46,6 +46,7 @@ FROM node:20-alpine AS production
 ENV NODE_ENV=production
 WORKDIR /app
 
+# Enable pnpm through Corepack to run the preview command
 RUN corepack enable
 
 COPY --from=build /app/dist ./dist

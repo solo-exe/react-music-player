@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # -----------------
+  # Development Environment
+  # -----------------
+  # This service builds the 'development' stage from the Dockerfile.
+  # It mounts the local source code for hot-reloading.
+  #
+  # To run: docker-compose up dev
+  #
+  dev:
+    build:
+      context: .
+      dockerfile: dockerfile
+      target: development
+    container_name: music-player-dev
+    ports:
+      # Map the container's port 5173 (Vite dev server) to the host's port 5173.
+      - "5173:5173"
+    volumes:
+      # Mount the entire project directory into /app in the container.
+      # This enables hot-reloading when you change files on your host machine.
+      - .:/app
+      # Use a volume for node_modules to prevent the host's node_modules (or lack thereof)
+      # from overwriting the one installed in the Docker image.
+      - /app/node_modules
+
+  # -----------------
+  # Production Environment
+  # -----------------
+  # This service builds the final 'production' stage from the Dockerfile.
+  # It runs the optimized production build.
+  #
+  # To run: docker-compose up prod
+  #
+  prod:
+    build:
+      context: .
+      dockerfile: dockerfile
+      target: production
+    container_name: music-player-prod
+    ports:
+      # Map the container's port 4173 (Vite preview server) to the host's port 4173.
+      - "4173:4173"

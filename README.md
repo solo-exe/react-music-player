@@ -52,20 +52,43 @@ To get a local copy up and running, follow these simple steps.
 
 ### Prerequisites
 
-Make sure you have Node.js and npm installed on your machine.
+Make sure you have one of the following installed on your machine:
 
-### Installation
+-   Node.js and a package manager like `pnpm` or `npm`.
+-   Docker and Docker Compose.
+
+### Installation (Local)
 
 1.  Clone the repo:
     ```sh
     git clone https://github.com/your_username/music-player.git
     ```
-2.  Install NPM packages:
+2.  Install packages (pnpm is recommended):
     ```sh
-    npm install
+    pnpm install
     ```
 3.  Run the development server:
     ```sh
-    npm run dev
+    pnpm run dev
     ```
     The application will be available at `http://localhost:5173` (or another port if 5173 is in use).
+
+### Running with Docker (Recommended)
+
+This project is fully containerized. Using Docker is the recommended way to run the application as it guarantees a consistent environment.
+
+1.  **Run the development server:**
+    This command will build the development image and start the container. It includes hot-reloading, so any changes you make to the source code will be reflected instantly.
+
+    ```sh
+    docker-compose up dev
+    ```
+
+    The application will be available at `http://localhost:5173`.
+
+2.  **Build and run the production version:**
+    This command builds the optimized production image and serves it.
+    ```sh
+    docker-compose up prod
+    ```
+    The production preview will be available at `http://localhost:4173`.
