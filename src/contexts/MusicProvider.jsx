@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import { MusicContext } from ".";
 import { songs } from "./songData";
+import { useEffect } from "react";
 
 
 export const MusicProvider = ({ children }) => {
@@ -12,7 +13,24 @@ export const MusicProvider = ({ children }) => {
     const [duration, setDuration] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [volume, setVolume] = useState(0.08);
-    const [playlists, setPlaylists] = useState([]);
+
+    const [playlists, setPlaylists] = useState(() => {
+        try {
+            const savedPlaylists = localStorage.getItem("musicPlayerPlaylists");
+            return savedPlaylists ? JSON.parse(savedPlaylists) : [];
+        } catch (error) {
+            console.error("Could not load playlists from local storage", error);
+            return [];
+        }
+    });
+
+    useEffect(() => {
+        try {
+            localStorage.setItem("musicPlayerPlaylists", JSON.stringify(playlists));
+        } catch (error) {
+            console.error("Could not save playlists to local storage", error);
+        }
+    }, [playlists]);
 
     const play = () => setIsPlaying(true)
     const pause = () => setIsPlaying(false);
@@ -42,14 +60,25 @@ export const MusicProvider = ({ children }) => {
     }, [allSongs, isPlaying]);
 
     const createPlaylist = useCallback((name) => {
-        const newPlaylist = {
-            id: Date.now(),
-            name,
-            songs: [],
-        }
-
+        if (playlists.some((playlist) => playlist.name === name)) {
+            alert("Playlist with this name already exists");
+            return;
+        };
+        const newPlaylist = { id: Date.now(), name, songs: [], }
         setPlaylists((prev) => [...prev, newPlaylist])
-    }, []);
+    }, [playlists]);
+
+    const deletePlaylist = (playlistId) => {
+        setPlaylists((prev) => prev.filter((playlist) => playlist.id !== playlistId))
+    }
+
+    const addSongToPlaylist = (playlistId, song) => {
+        setPlaylists((prev) => prev.map(playlist => {
+            if (playlist.id === playlistId) {
+                return { ...playlist, songs: [...playlist.songs, song] }
+            } else return playlist;
+        }))
+    }
 
     const formatTime = useCallback((time) => {
         if (isNaN(time) || !time) return "0:00";
@@ -77,6 +106,8 @@ export const MusicProvider = ({ children }) => {
         play,
         pause,
         createPlaylist,
+        addSongToPlaylist,
+        deletePlaylist
     }}>
         {children}
     </MusicContext.Provider>
