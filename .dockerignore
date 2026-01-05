@@ -1,12 +1,11 @@
-# Dependencies
+# Ignore dependencies, as they are installed inside the container
 node_modules
 
-# Build artifacts
+# Ignore build artifacts, as they are generated inside the container
 dist
 
-# Git
+# Ignore local development files and logs
 .git
-
-# Editor-specific / OS-specific
 .vscode
-.idea
+npm-debug.log
+*.log

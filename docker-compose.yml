@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # -----------------
   # Development Environment
@@ -12,7 +10,7 @@ services:
   dev:
     build:
       context: .
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
       target: development
     container_name: music-player-dev
     ports:
@@ -37,7 +35,7 @@ services:
   prod:
     build:
       context: .
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
       target: production
     container_name: music-player-prod
     ports:
